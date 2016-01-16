@@ -1,5 +1,5 @@
-function [fzl, fzu, lims] = localHull()
-[TRl, TRu, vl, vu] = parseSTL('NewHullRefined.STL');
+function [fzl, fzu, lims] = localHull(filename)
+[TRl, TRu, vl, vu] = parseSTL(filename);
 dxl = vl(:,1);
 % dxu = vu(:,1);
 dyl = vl(:,2);

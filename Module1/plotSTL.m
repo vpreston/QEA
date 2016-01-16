@@ -1,5 +1,6 @@
 function plotSTL()
-[~, ~, vl, vu, fl, fu] = parseSTL('NewHullRefined.STL');
+filename = 'EllipsoidHullVerticalWallsRefined.STL';
+[~, ~, vl, vu, fl, fu] = parseSTL(filename);
 dxl = vl(:,1);
 dyl = vl(:,2);
 
@@ -15,9 +16,9 @@ subplot(1,2,1);
 % trimesh(fu, dxu, dyu, dzu);
 TRl = triangulation(fl, vl);
 trisurf(TRl);
-hold on;
-TRu = triangulation(fu, vu);
-trisurf(TRu);
+% hold on;
+% TRu = triangulation(fu, vu);
+% trisurf(TRu);
 
 % format plot
 axis equal
@@ -38,7 +39,7 @@ qy = linspace(min(dyl), max(dyl), 100);
 % qzl = fzl({qy,qx});
 
 % triangular interpolation function (uses interptri)
-[fzl, fzu] = localHull();
+[fzl, fzu] = localHull(filename);
 qzl = fzl(Qx, Qy);
 qzu = fzu(Qx, Qy);
 

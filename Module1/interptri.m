@@ -26,6 +26,6 @@ triVals = reshape(dz(TR.ConnectivityList(ti,:)), size(bc));
 % Calculate the sum of the weighted values of V(x, y) using the dot product
 % on each row.
 qz = dot(bc, triVals, 2); % same as dot(bc', triVals')'
-qz(tinan) = 0;
+qz(tinan) = NaN;
 qz = reshape(qz, size(qx));
 end

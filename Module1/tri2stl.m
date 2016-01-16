@@ -5,7 +5,6 @@ function tri2stl(filename, fl, vl, fu, vu)
 
 f = [fl; fu];
 v = [vl; vu];
-[f, v] = patchslim(f, v); % remove duplicate vertices
 
 stlwrite(filename, f, v);
 end

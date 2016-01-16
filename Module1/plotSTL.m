@@ -1,6 +1,6 @@
 function plotSTL()
-filename = 'EllipsoidHullVerticalWallsRefined.STL';
-[~, ~, vl, vu, fl, fu] = parseSTL(filename);
+filename = 'HullRefined.STL';
+[~, ~, fl, fu, vl, vu] = stl2tri(filename);
 dxl = vl(:,1);
 dyl = vl(:,2);
 
@@ -16,9 +16,9 @@ subplot(1,2,1);
 % trimesh(fu, dxu, dyu, dzu);
 TRl = triangulation(fl, vl);
 trisurf(TRl);
-% hold on;
-% TRu = triangulation(fu, vu);
-% trisurf(TRu);
+hold on;
+TRu = triangulation(fu, vu);
+trisurf(TRu);
 
 % format plot
 axis equal

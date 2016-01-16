@@ -1,14 +1,14 @@
-function [v, f, n, c, stltitle] = stlread(filename, verbose)
+function [f, v, n, c, stltitle] = stlread(filename, verbose)
 % This function reads an STL file in binary format into vertex and face
 % matrices v and f.
 %
-% USAGE: [v, f, n, c, stltitle] = stlread(filename, verbose);
+% USAGE: [f, v, n, c, stltitle] = stlread(filename, verbose);
 %
 % verbose is an optional logical argument for displaying some loading
 %   information (default is false).
 %
-% v contains the vertices for all triangles [3*n x 3].
 % f contains the vertex lists defining each triangle face [n x 3].
+% v contains the vertices for all triangles [3*n x 3].
 % n contains the normals for each triangle face [n x 3].
 % c is optional and contains color rgb data in 5 bits [n x 3].
 % stltitle contains the title of the specified stl file [1 x 80].
@@ -19,7 +19,7 @@ function [v, f, n, c, stltitle] = stlread(filename, verbose)
 %   plot3(v(:,1),v(:,2),v(:,3),'.');
 %
 % Duplicate vertices can be removed using:
-%   [v, f]=patchslim(v, f);
+%   [f, v]=patchslim(f, v);
 %
 % For more information see:
 %  http://www.esmonde-white.com/home/diversions/matlab-program-for-loading-stl-files

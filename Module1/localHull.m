@@ -1,5 +1,5 @@
 function [fzl, fzu, lims] = localHull(filename)
-[TRl, TRu, vl, vu] = parseSTL(filename);
+[TRl, TRu, ~, ~, vl, vu] = stl2tri(filename);
 dxl = vl(:,1);
 % dxu = vu(:,1);
 dyl = vl(:,2);
@@ -7,15 +7,8 @@ dyl = vl(:,2);
 dzl = vl(:,3);
 dzu = vu(:,3);
 
-% should work, but throws an error
-% http://www.mathworks.com/matlabcentral/fileexchange/38925-linearly-interpolate-triangulation
-% fzl = @(qx, qy) interptri(TRl, vl(:,1), vl(:,2), vl(:,3), qx, qy);
-
 fzl = @(qx, qy) interptri(TRl, dzl, qx, qy);
 fzu = @(qx, qy) interptri(TRu, dzu, qx, qy);
-
-% Only available for Delaunay Triangulation
-% CH = TRl.convexHull();
 
 % Get indices of vertices in convex hull, counterclockwise from
 % most-x-negative point. The convex hull is the same for the lower and

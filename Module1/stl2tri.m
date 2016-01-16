@@ -1,18 +1,18 @@
-function [TRl, TRu, vl, vu, fl, fu, nl, nu] = parseSTL(filename)
+function [TRl, TRu, fl, fu, vl, vu, nl, nu] = stl2tri(filename)
 % Load file, parse into upper and lower data sets, remove duplicate
 % vertices, and unpack point cloud data.
 % http://www.mathworks.com/matlabcentral/fileexchange/29906-binary-stl-file-reader
 % http://www.mathworks.com/matlabcentral/fileexchange/29986-patch-slim--patchslim-m-
-[v, f, n] = stlread(filename);
+[f, v, n] = stlread(filename);
 if any(n(:,3) == 0) % any vertical faces?
     error('STL contains a vertical face. Cannot convert surface to functions.');
 end
-[v, f] = patchslim(v, f);
+[f, v] = patchslim(f, v); % remove duplicate vertices
 
 lower = n(:,3) < 0;
-[vl, fl] = patchslim(v, f(lower, :));
+[fl, vl] = patchslim(f(lower, :), v); % remove unused vertices
 nl = n(lower, :);
-[vu, fu] = patchslim(v, f(~lower, :));
+[fu, vu] = patchslim(f(~lower, :), v); % remove unused vertices
 nu = n(~lower, :);
 
 % dxl = vl(:,1);

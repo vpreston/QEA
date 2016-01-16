@@ -128,13 +128,18 @@ function module1_boat()
     end
 
     function d = displacement(upper, lower, lims, heel, tilt, depth)
-        %calculates the displacement in volume of the boat for a given heel angle,
-        %a given location of the waterline and a given trim angle (optional). Use
-        %this function to create plots of displaceent versus depth for different
-        %waterline locations and for different heel angles
+        % Calculates the displacement in volume of the boat for a given
+        % heel angle (rotation about +x; roll), a given location of the
+        % waterline, and a given trim angle (rotation about -y; pitch). Use
+        % this function to create plots of displacement versus depth for
+        % different waterline locations and for different heel angles.
+        % The waterline is defined in the boat's coordinate system and is
+        % of the form a*x+b*y+c*z+d=0. These constants were found using the
+        % following constraints on the general form:
+        % 
         c = 1/sqrt(tand(tilt)^2+tand(heel)^2+1);
         a = -c*tand(tilt);
-        b = -c*tand(tilt);
+        b = -c*tand(heel);
         water_fun = @(x,y,z) (-a.*x - b.*y - c.*z).*((-a.*x - b.*y - c.*z) < depth); %parameterized for z
         boat_fun_upp = upper;
         boat_fun_low = lower;

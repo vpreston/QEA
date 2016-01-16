@@ -1,15 +1,15 @@
-function [vnewer, fnewer] = patchslim(v, f)
+function [fnewer, vnewer] = patchslim(f, v)
 % PATCHSLIM removes duplicate or unused vertices in surface meshes.
 %
 % This function finds and removes duplicate or unused vertices.
 %
-% USAGE: [v, f] = patchslim(v, f)
+% USAGE: [f, v] = patchslim(f, v)
 %
 % Where v is the vertex list and f is the face list specifying vertex
 % connectivity.
 %
-% v contains the vertices for all triangles [3*n x 3].
 % f contains the vertex lists defining each triangle face [n x 3].
+% v contains the vertices for all triangles [3*n x 3].
 %
 % This will reduce the size of typical v matrix by about a factor of 6 by
 % removing duplicate vertices.  Removal of unused vertices further reduces
@@ -19,11 +19,11 @@ function [vnewer, fnewer] = patchslim(v, f)
 % Francis Esmonde-White, May 2010
 % http://www.esmonde-white.com/home/diversions/matlab-program-for-loading-stl-files
 
-if ~exist('v','var')
-    error('The vertex list (v) must be specified.');
-end
 if ~exist('f','var')
     error('The vertex connectivity of the triangle faces (f) must be specified.');
+end
+if ~exist('v','var')
+    error('The vertex list (v) must be specified.');
 end
 
 [vnew, ~, indexn] = unique(v, 'rows');

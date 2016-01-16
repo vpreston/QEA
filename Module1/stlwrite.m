@@ -229,15 +229,15 @@ function [F,V]=mesh2tri(X,Y,Z,tri_type)
 [J,I]=meshgrid(1:1:size(X,2)-1,1:1:size(X,1)-1);
 
 switch tri_type
-    case 'f'%Forward slash
+    case 'f' %Forward slash
         TRI_I=[I(:),I(:)+1,I(:)+1;  I(:),I(:),I(:)+1];
         TRI_J=[J(:),J(:)+1,J(:);   J(:),J(:)+1,J(:)+1];
         F = sub2ind(size(X),TRI_I,TRI_J);
-    case 'b'%Back slash
+    case 'b' %Back slash
         TRI_I=[I(:),I(:)+1,I(:);  I(:)+1,I(:)+1,I(:)];
         TRI_J=[J(:)+1,J(:),J(:);   J(:)+1,J(:),J(:)+1];
         F = sub2ind(size(X),TRI_I,TRI_J);
-    case 'x'%Cross
+    case 'x' %Cross
         TRI_I=[I(:)+1,I(:);  I(:)+1,I(:)+1;  I(:),I(:)+1;    I(:),I(:)];
         TRI_J=[J(:),J(:);    J(:)+1,J(:);    J(:)+1,J(:)+1;  J(:),J(:)+1];
         IND=((numel(X)+1):numel(X)+prod(size(X)-1))';

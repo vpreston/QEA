@@ -3,39 +3,24 @@
 
 function module1_boat()
 
-    function d = displacement(upper, lower, lims, heel, tilt, depth)
-        % Calculates the displacement in volume of the boat for a given
-        % heel angle (rotation about +x; roll), a given location of the
-        % waterline, and a given trim angle (rotation about -y; pitch). Use
-        % this function to create plots of displacement versus depth for
-        % different waterline locations and for different heel angles.
-        % The waterline is defined in the boat's coordinate system and is
-        % of the form a*x+b*y+c*z+d=0. These constants were found using the
-        % following constraints on the general form:
-        % 
-        c = 1/sqrt(tand(tilt)^2+tand(heel)^2+1);
-        a = -c*tand(tilt);
-        b = -c*tand(heel);
-        water_fun = @(x,y,z) (-a.*x - b.*y - c.*z).*((-a.*x - b.*y - c.*z) < depth); %parameterized for z
+    function m = displacement(upper, lower, lims, tilt, heel, depth)
+        % Calculates the displacement of the boat from heel angle in
+        % degrees (rotation about +x; roll), trim angle in degrees
+        % (rotation about -y; pitch), and depth of the origin of the boat
+        % below the waterline. Use this function to create plots of
+        % displacement versus depth for different waterline locations and
+        % for different heel angles.
+        [underwaterf, normal, coeffs] = getWaterlinef(tilt, heel, depth);
         boat_fun_upp = upper;
         boat_fun_low = lower;
         
-        d = integral3(water_fun,lims{:});
+        rho = 998.2; % density of water at 20 degrees Celsius [kg/m^3]
+        m = rho*integral3(underwaterf, lims{:});
         
         %subtract the water function and the boat functions
         %integrate over the intersection area
         
-        
-        %visualizing the stuff happening
-        xw = -0.4:0.05:0.4;
-        yw = -0.4:0.05:0.4;
-        [XW,YW] = meshgrid(xw,yw);
-        ZW = tand(tilt).*XW + tand(heel).*YW - depth;
-        figure;
-        hold on;
-        surf(XW,YW,ZW);
-        
-        [~, ~, vl, vu, fl, fu] = parseSTL('Hull.STL');
+        [~, ~, fl, fu, vl, vu] = stl2tri('Hull.STL');
         dxl = vl(:,1);
         dyl = vl(:,2);
         qx = linspace(min(dxl), max(dxl), 100);

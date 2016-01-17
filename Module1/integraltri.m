@@ -10,11 +10,9 @@ V = 0;
 A = 0;
 for i = 1:TR.size(1)
     vertices = TR.ConnectivityList(i,:); % indices of triangle vertices
-    points = TR.Points(vertices,:); % locations of triangle vertices
+    [v, a] = wedgeVolume(TR.Points(vertices,:), dz(vertices));
     
-    h = mean(dz(vertices)); % height of the barycenter (centroid)
-    a = 1/2*abs(det([points ones(3,1)])); % area of base triangle
     A = A + a;
-    V = V + a*h;
+    V = V + v;
 end
 end

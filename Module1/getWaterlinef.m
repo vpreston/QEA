@@ -1,7 +1,11 @@
-function [underwaterf, normal, coeffs] = getWaterlinef(tilt, heel, depth)
-% Gets the boolean function of the waterline, which returns true if the
-% point (x, y, z) lies on the opposite side of the plane from the normal
-% vector (i.e. is underwater).
+function [underwaterf, normal, point, coeffs] = getWaterlinef(tilt, heel, depth)
+% Gets the elementwise boolean function of the waterline, which returns
+% true if the point (x, y, z) lies on the opposite side of the plane from
+% the normal vector (i.e. is underwater).  This function also returns the
+% normal vector to the plane, the intersection between the normal vector
+% (with origin at the origin) and the plane, and the coefficients of the
+% plane function.  All outputs are row vectors.
+%   
 % The waterline is defined in the boat's coordinate system and is of the
 % form a*x+b*y+c*z+d=0. These constants are found by defining the normal
 % vector of the plane [a, b, c] using the tilt and heel angles. The normal
@@ -16,6 +20,7 @@ b = normal(2);
 c = normal(3);
 d = -depth;
 coeffs = [a b c d];
+point = depth*normal;
 
 underwaterf = @(x, y, z) a*x + b*y + c*z + d < 0;
 end

@@ -3,5 +3,4 @@ function volume = tetraVolume(points)
 % vertices.  Each row of points corresponds to a vertex of the tetrahedron.
 
 volume = abs(det(diff(points, 1, 1)))/6;
-% [~, volume] = convhull(points(:,1), points(:,2), points(:,3));
 end

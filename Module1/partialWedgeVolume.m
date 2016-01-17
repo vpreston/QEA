@@ -11,7 +11,7 @@ function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP)
 %% assemble all wedge informations
 % build full points list from base triangle and height information
 v = [P zeros(3,1); P H];
-% get centroid and volume of entire wedge (compare to wedgeVolume)
+% get centroid and volume of entire wedge
 [tC, tVol] = getCentroid(v);
 vol = tVol;
 % get area of top face of wedge

@@ -5,7 +5,7 @@ figure;
 plotSTL();
 
 % [planef, pN, pP, coeffs] = plotWaterline(0, 30, 0.01, [vl; vu]);
-[planef, pN, pP, coeffs] = getWaterline(0, 0, 0.01); %(tilt, heel, depth)
+[planef, pN, pP, coeffs] = getWaterline(0, 0, -0.01); %(tilt, heel, depth)
 
 density = 32; %from datsheet, kg/m^3
 lower_vol = 0;
@@ -29,7 +29,7 @@ for i = 1:size(fl, 1) %lower boat
     [mass_lc,lower_vol,lower_centroid] = getCOM(density,tVol,tC,lower_vol,lower_centroid,mass_lc);
     [mass_lcw,lower_volw,lower_centroidw] = getCOM(density,vol,C,lower_volw,lower_centroidw,mass_lcw);
 end
-plot3(lower_centroid(1),lower_centroid(2),lower_centroid(3),'go')
+% plot3(lower_centroid(1),lower_centroid(2),lower_centroid(3),'go')
 plot3(lower_centroidw(1),lower_centroidw(2),lower_centroidw(3),'g*')
 
 for i = 1:size(fu, 1) %upper boat
@@ -38,9 +38,8 @@ for i = 1:size(fu, 1) %upper boat
     [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP);
     [mass_tc,upper_vol,upper_centroid] = getCOM(density,tVol,tC,upper_vol,upper_centroid,mass_tc);
     [mass_tcw,upper_volw,upper_centroidw] = getCOM(density,vol,C,upper_volw,upper_centroidw,mass_tcw);
-
 end
-plot3(upper_centroid(1),upper_centroid(2),upper_centroid(3),'bo')
+% plot3(upper_centroid(1),upper_centroid(2),upper_centroid(3),'bo')
 plot3(upper_centroidw(1),upper_centroidw(2),upper_centroidw(3),'b*')
 
 

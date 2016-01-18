@@ -17,12 +17,12 @@ plotOverlap = false;
 plotCOM = false;
 plotCOB = false;
 if main
-    plotWedge = true;
-    plotWater = true;
-    plotIntersect = true;
-    plotOverlap = true;
-    plotCOM = true;
-    plotCOB = true;
+%     plotWedge = true;
+%     plotWater = true;
+%     plotIntersect = true;
+%     plotOverlap = true;
+%     plotCOM = true;
+%     plotCOB = true;
     hold on;
     axis equal;
     xlabel('x');

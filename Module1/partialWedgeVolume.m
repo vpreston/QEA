@@ -8,14 +8,16 @@ function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP)
 % boolean function which determines whether a point is under the plane.  nP
 % is the normal vector of the plane.  pP is a point in the plane.
 
-main = length(dbstack) ~= 2;
+main = length(dbstack) == 1;
 
 plotWedge = false;
 plotWater = false;
-plotIntersect = true;
+% plotIntersect = true;
+plotIntersect = false;
 plotOverlap = false;
 plotCOM = false;
 plotCOB = false;
+plotLbl = false;
 if main
     plotWedge = true;
     plotWater = true;
@@ -23,6 +25,7 @@ if main
     plotOverlap = true;
     plotCOM = true;
     plotCOB = true;
+    plotLbl = true;
     hold on;
     axis equal;
     xlabel('x');
@@ -36,12 +39,9 @@ wP = zeros(0,3);
 %% assemble all wedge informations
 % build full points list from base triangle and height information
 v = [P zeros(3,1); P H];
-% get centroid and volume of entire wedge
-[tC, tVol] = getCentroid(v);
-if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); end
 % define connectivity and adjacency lists of wedge vertices
 f = [1 2 3 NaN; 4 5 6 NaN; 1 2 5 4; 2 3 6 5; 1 3 6 4];
-adjacencies = [2 3 4; 1 3 5; 1 2 6; 1 5 6; 2 4 6; 3 4 5];
+a = [2 3 4; 1 3 5; 1 2 6; 1 5 6; 2 4 6; 3 4 5];
 
 %% plot wedge edges and underwater region
 if plotWedge
@@ -50,14 +50,42 @@ if plotWedge
     view(3);
 end
 if plotWater
-    [X, Y, Z] = meshgrid(linspace(min(v(:,1)), max(v(:,1)), 10), ...
-        linspace(min(v(:,2)), max(v(:,2)), 10), ...
+    [X, Y, Z] = meshgrid(linspace(min(v(:,1)), max(v(:,1)), 6), ...
+        linspace(min(v(:,2)), max(v(:,2)), 6), ...
         linspace(min(v(:,3)), max(v(:,3)), 15));
     b = planef(X, Y, Z);
     s(b) = 10; % circles of size 10 for underwater points
     s(~b) = NaN; % do not plot above water points
     scatter3(X(:), Y(:), Z(:), s(:), 'b');
 end
+if plotLbl
+    strs = num2cell(num2str((1:6)'),2);
+    text(v(:,1), v(:,2), v(:,3), strs, 'fontsize', 14, 'color', 'm');
+end
+
+%% check for 0-height vertices on top of wedge
+% ik = [H ~= 0; true(3,1)]; % index vector of vertices to be kept
+% ir = [H == 0; false(3,1)]; % index vector of vertices to be removed
+% id = [false(3,1); H == 0]; % index vector of replacements for ir
+% % get unique vertices and their v indices
+% % [vq, iv] = unique(v, 'rows', 'stable');
+% % get v indices of unique points in the base of the wedge
+% ivq = (1:6)' + 3*ir;
+% % replace references to removed vertices with their replacements
+% a = ivq(a);
+% % add references from removed vertices to their replacements
+% a(id,4:6) = a(ir,:);
+% % replace nonsensical values with NaN, and remove all NaN columns
+% a(a == 0) = NaN;
+% a(bsxfun(@eq, a, (1:6)')) = NaN;
+% a = sort(a, 2);
+% a(a == circshift(a, 1, 2)) = NaN;
+% % remove all NaN columns
+% a(:, all(isnan(a), 1)) = [];
+
+% get centroid and volume of entire wedge
+[tC, tVol] = getCentroid(v);
+if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); end
 
 %% find which of the wedge's vertices are under the plane
 underPlane = planef(v(:,1), v(:,2), v(:,3));
@@ -79,7 +107,7 @@ end
 
 %% find index pairs of vertices describing edges intersecting the plane
 inds = find(underPlane); % indices of points under the plane
-adjs = adjacencies(underPlane, :); % indices of points adjacent to pointsUnder
+adjs = a(underPlane, :); % indices of points adjacent to pointsUnder
 edgesAll = [repmat(inds, 3, 1) adjs(:)]; % adjacent edge pairs [under all]
 edgesInds = any(bsxfun(@eq, find(~underPlane)', edgesAll(:,2)), 2);
 edges = unique(sort(edgesAll(edgesInds, :), 2), 'rows');

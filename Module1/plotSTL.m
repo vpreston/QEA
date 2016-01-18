@@ -4,7 +4,7 @@ filename = 'Hull.STL';
 dxl = vl(:,1);
 dyl = vl(:,2);
 
-main = length(dbstack) ~= 2;
+main = length(dbstack) == 1;
 
 %% Plot raw STL data
 if main

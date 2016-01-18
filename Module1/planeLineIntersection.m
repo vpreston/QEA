@@ -33,7 +33,7 @@ N = dot(n, w, 2); % how far is segment P0 to plane
 % check(and(abs(D) < 1e-7, N==0)) = 2;
 
 for i = 1:num
-    if abs(D(i)) < 1e-7 % segment is parallel to plane
+    if abs(D(i)) < 1e-10 % segment is parallel to plane
         if N(i) == 0
             check(i) = 2;
             break

@@ -8,23 +8,34 @@ function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP)
 % boolean function which determines whether a point is under the plane.  nP
 % is the normal vector of the plane.  pP is a point in the plane.
 
+main = length(dbstack) ~= 2;
+
 plotWedge = false;
 plotWater = false;
 plotIntersect = true;
 plotOverlap = false;
-% if any([plotWedge plotWater plotIntersect plotOverlap])
-%     hold on;
-%     axis equal;
-%     xlabel('x');
-%     ylabel('y');
-%     zlabel('z');
-% end
+plotCOM = false;
+plotCOB = false;
+if main
+    plotWedge = true;
+    plotWater = true;
+    plotIntersect = true;
+    plotOverlap = true;
+    plotCOM = true;
+    plotCOB = true;
+    hold on;
+    axis equal;
+    xlabel('x');
+    ylabel('y');
+    zlabel('z');
+end
 
 %% assemble all wedge informations
 % build full points list from base triangle and height information
 v = [P zeros(3,1); P H];
 % get centroid and volume of entire wedge
 [tC, tVol] = getCentroid(v);
+if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); end
 vol = tVol;
 % get area of top face of wedge
 wA = triArea(v(4:6,:));
@@ -109,5 +120,5 @@ if plotOverlap; trimesh(triCH, pCH(:,1), pCH(:,2), pCH(:,3), ...
 
 %% find centroid by adding weighted centroid of all simplices
 [C, vol] = getCentroid(pCH);
-%plot3(C(1), C(2), C(3), 'k*', 'markersize', 15, 'linewidth', 2);
+if plotCOB; plot3(C(1), C(2), C(3), 'r*', 'markersize', 15, 'linewidth', 2); end
 end

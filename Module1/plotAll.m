@@ -1,50 +1,47 @@
 figure;
+hold on;
+axis equal;
+xlabel('x');
+ylabel('y');
+zlabel('z');
+view(3);
 
-density = 32; %from datsheet, kg/m^3
-lower_vol = 0;
-upper_vol = 0;
-sum_lc = 0;
-sum_tc = 0;
-mass_lc = 0;
-mass_tc = 0;
-lower_centroid = 0;
-upper_centroid = 0;
+rho = 32; % boat material density; from datasheet [kg/m^3]
+tVol = 0; % total volume [m^3]
+dVol = 0; % displaced volume [m^3]
+tC = 0; % total volume centroid (center of mass) [m]
+dC = 0; % displaced volume centroid [m]
 [TRl, TRu, fl, fu, vl, vu, nl, nu] = stl2tri('Hull.STL');
 
 plotSTL();
 
 % [planef, pN, pP, coeffs] = plotWaterline(0, 30, 0.01, [vl; vu]);
-[planef, pN, pP, coeffs] = getWaterline(0, 0, 0.01); %(tilt, heel, depth)
+[planef, pN, pP, coeffs] = getWaterline(0, 0, 0.01); % tilt, heel, deptj
 
-
-for i = 1:size(fl, 1) %lower boat
+for i = 1:size(fl, 1) % lower
     P = vl(fl(i,:)',1:2);
     H = vl(fl(i,:)',3);
-    [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP);
-    lower_vol = lower_vol + tVol;
-    lower_centroid = 1/(mass_lc + tVol*density).*(mass_lc.*lower_centroid + tVol*density.*tC);
-    mass_lc = mass_lc + tVol*density;
+    [vol, c, tvol, tc, wa, wp] = partialWedgeVolume(P, H, planef, pN, pP);
+    dVol = dVol + vol;
+    dC = dC + vol*c;
+    tVol = tVol + tvol;
+    tC = tC + tvol*tc;
+%     drawnow
 end
-plot3(lower_centroid(1),lower_centroid(2),lower_centroid(3),'go')
 
-for i = 1:size(fu, 1) %upper boat
+for i = 1:size(fu, 1) % upper
     P = vu(fu(i,:)',1:2);
     H = vu(fu(i,:)',3);
-    [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP);
-    upper_vol = upper_vol + tVol;
-    upper_centroid = 1/(mass_tc + tVol*density).*(mass_tc.*upper_centroid + tVol*density.*tC);
-    mass_tc = mass_tc + tVol*density;
+    [vol, c, tvol, tc, wa, wp] = partialWedgeVolume(P, H, planef, pN, pP);
+    dVol = dVol + vol;
+    dC = dC + vol*c;
+    tVol = tVol + tvol;
+    tC = tC + tvol*tc;
+%     drawnow
 end
-plot3(upper_centroid(1),upper_centroid(2),upper_centroid(3),'bo')
+dC = dC/dVol;
+tC = tC/tVol;
+tM = rho*tVol; % total mass [kg]
 
-
-mass = density * (upper_vol + lower_vol);
-mass_upper = density * upper_vol;
-mass_lower = density * lower_vol;
-com = 1/(mass_upper + mass_lower).*(mass_upper.*upper_centroid + mass_lower.*lower_centroid);
-plot3(com(1),com(2),com(3),'r*')
-
-axis equal;
-xlabel('x');
-ylabel('y');
-zlabel('z');
+plot3(dC(1), dC(2), dC(3), 'r*', 'markersize', 15, 'linewidth', 2);
+plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2);

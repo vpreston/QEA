@@ -1,9 +1,9 @@
 function [C, totalVolume] = getCentroid(P)
 P = unique(P, 'rows');
-if size(P,1) < 4 %not a solid
-    C = mean(P, 1);
-    totalVolume=0;
-    return
+if size(P, 1) < 4 % not a 3D solid
+   C = mean(P, 1);
+   totalVolume = 0;
+   return
 end
 DT = delaunay(P); % 3D triangulation
 C = [0 0 0];

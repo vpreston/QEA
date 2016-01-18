@@ -13,5 +13,11 @@ wmass = density * wVol; %dins wedge mass
 COM = 1/(bmass + wmass).*(bmass.*bC + wmass.*wC); %barycentric COM calculation
 tmass = bmass + wmass; %update total mass 
 
+if isnan(COM(1))
+    tmass = 0;
+    Vol = 0;
+    COM = [0 0 0];
+end
+
 end 
 

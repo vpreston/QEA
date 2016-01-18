@@ -16,6 +16,7 @@ dC = 0; % displaced volume centroid [m]
 plotSTL();
 
 % [planef, pN, pP, coeffs] = plotWaterline(0, 30, 0.01, [vl; vu]);
+
 [planef, pN, pP, coeffs] = getWaterline(0, 0, 0.01); % tilt, heel, depth
 
 % density = 32; %from datsheet, kg/m^3
@@ -46,7 +47,7 @@ for i = 1:size(fl, 1) % lower
 %     [mass_lcw,lower_volw,lower_centroidw] = getCOM(density,vol,C,lower_volw,lower_centroidw,mass_lcw);
 end
 % plot3(lower_centroid(1),lower_centroid(2),lower_centroid(3),'go')
-% plot3(lower_centroidw(1),lower_centroidw(2),lower_centroidw(3),'g*')
+plot3(lower_centroidw(1),lower_centroidw(2),lower_centroidw(3),'g*')
 
 for i = 1:size(fu, 1) % upper
     P = vu(fu(i,:)',1:2);

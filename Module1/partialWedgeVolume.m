@@ -8,6 +8,18 @@ function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP)
 % boolean function which determines whether a point is under the plane.  nP
 % is the normal vector of the plane.  pP is a point in the plane.
 
+plotWedge = false;
+plotWater = false;
+plotIntersect = true;
+plotOverlap = true;
+% if any([plotWedge plotWater plotIntersect plotOverlap])
+%     hold on;
+%     axis equal;
+%     xlabel('x');
+%     ylabel('y');
+%     zlabel('z');
+% end
+
 %% assemble all wedge informations
 % build full points list from base triangle and height information
 v = [P zeros(3,1); P H];
@@ -21,21 +33,21 @@ wP = zeros(0,3);
 f = [1 2 3 NaN; 4 5 6 NaN; 1 2 5 4; 2 3 6 5; 1 3 6 4];
 adjacencies = [2 3 4; 1 3 5; 1 2 6; 1 5 6; 2 4 6; 3 4 5];
 
-%% plot wedge edges and underwater region (comment all if not plotting)
-% patch('faces', f, 'vertices', v, 'edgecolor', 'k', 'linewidth', 2, 'facecolor', 'none');
-% view(3);
-% hold on;
-% [X, Y, Z] = meshgrid(linspace(min(v(:,1)), max(v(:,1)), 10), ...
-%     linspace(min(v(:,2)), max(v(:,2)), 10), ...
-%     linspace(min(v(:,3)), max(v(:,3)), 15));
-% b = planef(X, Y, Z);
-% s(b) = 10; % circles of size 10 for underwater points
-% s(~b) = NaN; % do not plot above water points
-% scatter3(X(:), Y(:), Z(:), s(:), 'b');
-% axis equal
-% xlabel('x');
-% ylabel('y');
-% zlabel('z');
+%% plot wedge edges and underwater region
+if plotWedge
+    patch('faces', f, 'vertices', v, 'edgecolor', 'k', 'linewidth', 2, ...
+        'facecolor', 'none');
+    view(3);
+end
+if plotWater
+    [X, Y, Z] = meshgrid(linspace(min(v(:,1)), max(v(:,1)), 10), ...
+        linspace(min(v(:,2)), max(v(:,2)), 10), ...
+        linspace(min(v(:,3)), max(v(:,3)), 15));
+    b = planef(X, Y, Z);
+    s(b) = 10; % circles of size 10 for underwater points
+    s(~b) = NaN; % do not plot above water points
+    scatter3(X(:), Y(:), Z(:), s(:), 'b');
+end
 
 %% find which of the wedge's vertices are under the plane
 underPlane = planef(v(:,1), v(:,2), v(:,3));
@@ -72,7 +84,7 @@ indsTop = inds(inds > 3); % wetted vertices of top face of wedge
 if any(length(indsTop) == [1 2]) % plane passes through top face of wedge
     edgesTop = all(edges > 3, 2); % edges on top of wedge intersecting the plane
     wP = intPoints(edgesTop,:);
-    plotLines(wP(1,:), wP(2,:), 'g-', 4);
+    if plotIntersect; plotLines(wP(1,:), wP(2,:), 'g-', 4); end
     numTop = sum(edgesTop)+length(indsTop); % number of vertices defining wetted area
     if numTop == 3
         wA = triArea([v(indsTop, :); wP]);
@@ -84,16 +96,16 @@ elseif isempty(indsTop) % top face of wedge is entirely above water
     wA = 0;
 end
 
-%% plot region of wedge under the plane (comment all if not plotting)
-% % get convex hull indices and volume of wedge under plane
-% [triCH, vol] = convhull(pCH(:,1), pCH(:,2), pCH(:,3));
-% % check that all points in pCH are used in the convex hull (also triggers
-% % if there's a duplicate point... :/ )
-% % assert(length(unique(triCH(:))) == size(pCH, 1), 'pCH isn''t convex');
-% % plot convex hull indicating volume under water and within wedge
+%% plot region of wedge under the plane
+% get convex hull indices and volume of wedge under plane
+if plotOverlap; [triCH, ~] = convhull(pCH(:,1), pCH(:,2), pCH(:,3)); end
+% check that all points in pCH are used in the convex hull (also triggers
+% if there's a duplicate point... :/ )
+% assert(length(unique(triCH(:))) == size(pCH, 1), 'pCH isn''t convex');
+% plot convex hull indicating volume under water and within wedge
 % plot3(pCH(:,1), pCH(:,2), pCH(:,3), 'ro', 'markersize', 7, 'markerfacecolor', 'r');
-% trimesh(triCH, pCH(:,1), pCH(:,2), pCH(:,3), 'edgecolor', 'none', ...
-%     'facecolor', 'r', 'facealpha', 0.6);
+if plotOverlap; trimesh(triCH, pCH(:,1), pCH(:,2), pCH(:,3), ...
+        'edgecolor', 'none', 'facecolor', 'r', 'facealpha', 0.2); end
 
 %% find centroid by adding weighted centroid of all simplices
 [C, vol] = getCentroid(pCH);

@@ -30,16 +30,15 @@ if main
     zlabel('z');
 end
 
+%% initialize values which are seldom changed
+wP = zeros(0,3);
+
 %% assemble all wedge informations
 % build full points list from base triangle and height information
 v = [P zeros(3,1); P H];
 % get centroid and volume of entire wedge
 [tC, tVol] = getCentroid(v);
 if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); end
-vol = tVol;
-% get area of top face of wedge
-wA = triArea(v(4:6,:));
-wP = zeros(0,3);
 % define connectivity and adjacency lists of wedge vertices
 f = [1 2 3 NaN; 4 5 6 NaN; 1 2 5 4; 2 3 6 5; 1 3 6 4];
 adjacencies = [2 3 4; 1 3 5; 1 2 6; 1 5 6; 2 4 6; 3 4 5];
@@ -68,9 +67,12 @@ numUnder = sum(underPlane);
 if numUnder == 0 % wedge is entirely above plane
     vol = 0;
     wA = 0;
+    C = tC;
+    return
 end
-if any(numUnder == [0 6]) % plane doesn't intersect wedge (doesn't plot)
-    wP = zeros(0,3);
+if numUnder == 6 % wedge is entirely under plane
+    vol = tVol;
+    wA = triArea(v(4:6,:));
     C = tC;
     return
 end
@@ -95,14 +97,16 @@ indsTop = inds(inds > 3); % wetted vertices of top face of wedge
 if any(length(indsTop) == [1 2]) % plane passes through top face of wedge
     edgesTop = all(edges > 3, 2); % edges on top of wedge intersecting the plane
     wP = intPoints(edgesTop,:);
-    if plotIntersect; plotLines(wP(1,:), wP(2,:), 'g-', 4); end
+    if plotIntersect; plotLines(wP(1,:), wP(2,:), 'b-', 4); end
     numTop = sum(edgesTop)+length(indsTop); % number of vertices defining wetted area
     if numTop == 3
         wA = triArea([v(indsTop, :); wP]);
     else
         assert(numTop == 4, 'wetted area broke');
-        wA = wA - triArea([v(15-sum(indsTop), :); wP]);
+        wA = triArea(v(4:6,:)) - triArea([v(15-sum(indsTop), :); wP]);
     end
+elseif length(indsTop) == 3 % top face of wedge is entirely below water
+    wA = triArea(v(4:6,:));
 elseif isempty(indsTop) % top face of wedge is entirely above water
     wA = 0;
 end

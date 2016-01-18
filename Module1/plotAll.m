@@ -80,8 +80,3 @@ plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2);
 % plot3(cob(1),cob(2),cob(3),'r*')
 
 %cob should just be center of what is under the water...we'll see
-
-% axis equal;
-% xlabel('x');
-% ylabel('y');
-% zlabel('z');

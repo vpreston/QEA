@@ -44,6 +44,8 @@ mass_lower = density * lower_vol;
 com = 1/(mass_upper + mass_lower).*(mass_upper.*upper_centroid + mass_lower.*lower_centroid);
 plot3(com(1),com(2),com(3),'r*')
 
+%cob should just be center of what is under the water...we'll see
+
 axis equal;
 xlabel('x');
 ylabel('y');

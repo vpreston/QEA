@@ -6,7 +6,6 @@ ylabel('y');
 zlabel('z');
 view(3);
 
-
 rho = 32; % boat material density; from datasheet [kg/m^3]
 tVol = 0; % total volume [m^3]
 dVol = 0; % displaced volume [m^3]
@@ -45,9 +44,12 @@ for i = 1:size(fu, 1) % upper
     tC = tC + tvol*tc;
 end
 
-dC = dC/dVol;
-tC = tC/tVol;
-tM = rho*tVol + 0.35*2; % total mass of boat [kg]
+%define the location of the soda cans and their mass/density
+%define the location of the mast and its mass/density
+
+dC = dC/dVol; %displaced centroid (COB)
+tC = tC/tVol; %total centroid (COM)
+tM = rho*tVol + 0.35*2; % total mass of boat with soda can mass [kg]
 
 plot3(dC(1), dC(2), dC(3), 'r*', 'markersize', 15, 'linewidth', 2);
 plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2);

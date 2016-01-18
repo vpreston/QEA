@@ -11,7 +11,7 @@ function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP)
 plotWedge = false;
 plotWater = false;
 plotIntersect = true;
-plotOverlap = true;
+plotOverlap = false;
 % if any([plotWedge plotWater plotIntersect plotOverlap])
 %     hold on;
 %     axis equal;
@@ -109,5 +109,5 @@ if plotOverlap; trimesh(triCH, pCH(:,1), pCH(:,2), pCH(:,3), ...
 
 %% find centroid by adding weighted centroid of all simplices
 [C, vol] = getCentroid(pCH);
-% plot3(C(1), C(2), C(3), 'k*', 'markersize', 15, 'linewidth', 2);
+%plot3(C(1), C(2), C(3), 'k*', 'markersize', 15, 'linewidth', 2);
 end

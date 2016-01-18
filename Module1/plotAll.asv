@@ -6,9 +6,7 @@ upper_vol = 0;
 sum_lc = 0;
 sum_tc = 0;
 mass_lc = 0;
-mass_tc = 0;
-lower_centroid = 0;
-upper_centroid = 0;
+lower_centroid = None
 [TRl, TRu, fl, fu, vl, vu, nl, nu] = stl2tri('Hull.STL');
 
 plotSTL();
@@ -32,8 +30,8 @@ for i = 1:size(fu, 1) %upper boat
     H = vu(fu(i,:)',3);
     [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP);
     upper_vol = upper_vol + tVol;
-    upper_centroid = 1/(mass_tc + tVol*density).*(mass_tc.*upper_centroid + tVol*density.*tC);
-    mass_tc = mass_tc + tVol*density;
+    sum_tc = sum_tc + C;
+    upper_centroid = (sum_tc./i);
 end
 plot3(upper_centroid(1),upper_centroid(2),upper_centroid(3),'bo')
 
@@ -42,7 +40,7 @@ mass = density * (upper_vol + lower_vol);
 mass_upper = density * upper_vol;
 mass_lower = density * lower_vol;
 com = 1/(mass_upper + mass_lower).*(mass_upper.*upper_centroid + mass_lower.*lower_centroid);
-plot3(com(1),com(2),com(3),'r*')
+% plot3(com(1),com(2),com(3),'r*')
 
 axis equal;
 xlabel('x');

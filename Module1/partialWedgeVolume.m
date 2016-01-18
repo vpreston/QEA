@@ -1,4 +1,4 @@
-function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP)
+function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP, plot)
 % Calculates the volume under a plane and inside a wedge.
 %
 % P is the 3x2 row-wise list of 3 xy points that define the vertices of the
@@ -12,8 +12,7 @@ main = length(dbstack) == 1;
 
 plotWedge = false;
 plotWater = false;
-% plotIntersect = true;
-plotIntersect = false;
+plotIntersect = plot;
 plotOverlap = false;
 plotCOM = false;
 plotCOB = false;

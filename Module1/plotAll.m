@@ -20,6 +20,7 @@ for i = 1:size(f, 1)
     [c(i,:), vol(i,1)] = getCentroid(V);
 end
 
+% heelVec = 20;
 heelVec = 0:20:180;
 heelSz = length(heelVec);
 momentVec = zeros(heelSz, 3);
@@ -32,19 +33,19 @@ for j=1:heelSz
     depth = fzero(func, [-0.1 0.1]);
     depthVec(j) = depth;
     
-    % [~, dC, tC, dM, tM, dF, tF] = float(f, v, vol, c, tilt, heel, depth, [1 0]);
-    [~, dC, tC, dM, tM, dF, tF] = float(f, v, vol, c, tilt, heel, depth, [0 0]);
-    momentVec(j, :) = cross(dC-tC, [0 0 -dF]);
+%     [~, T, dC, tC] = float(f, v, vol, c, tilt, heel, depth, [1 0]);
+    [~, T] = float(f, v, vol, c, tilt, heel, depth, [0 0]); % don't plot
+    momentVec(j, :) = -T*sign(heel);
 end
 
 figure
-[hAx,hLine1,hLine2] = plotyy(heelVec, -momentVec(:,1), heelVec, depthVec);
+[hAx,hLine1,hLine2] = plotyy(heelVec, momentVec(:,1), heelVec, depthVec);
 title('Boat Characteristics');
 xlabel('Heel Angle [deg]');
 ylabel(hAx(1), 'Righting Moment [N-m]');
 ylabel(hAx(2), 'Boat Depth [m]');
 
 % plotSTL();
-%
+% 
 % plot3(dC(1), dC(2), dC(3), 'r*', 'markersize', 15, 'linewidth', 2);
 % plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2);

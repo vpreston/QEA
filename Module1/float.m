@@ -1,4 +1,4 @@
-function [netForce, dC, tC, dM, tM, dF, tF] = ... 
+function [netForce, T, dC, tC, dM, tM, dF, tF] = ... 
     float(f, v, vol, c, tilt, heel, depth, opts)
 %float this function takes in an orientation of a boat and calculates the
 %difference between the submerged volume and the necessary volume for
@@ -16,8 +16,8 @@ cargoM = 0.720 - rhoF*10*2.8^2*convlength(1, 'in', 'm')^3; % mass of cargo [kg]
 mastC = [0 0 0.25-convlength(3, 'in', 'm')]; % centroid of cargo [m]
 mastM = rhoA*0.5*pi*(3/8/2)^2*convlength(1, 'in', 'm')^2; % mass of cargo [kg]
 
-ballastC = [0 0 -1];
-ballastM = 1;
+ballastC = [0 0 -0.06];
+ballastM = 0.3;
 
 tVol = 0; % total volume [m^3]
 dVol = 0; % displaced volume [m^3]
@@ -55,6 +55,10 @@ dF = dM*g; % buoyant force [N]
 tF = tM*g; % gravitational force [N]
 
 netForce = dF-tF;
+
+% assuming netForce is 0...
+T = cross(dC-tC, dF*pN);
+
 % depth
 % netForce
 end

@@ -2,7 +2,7 @@
 % removed (which takes lots of time)
 warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 
-filename = 'Hull4.STL';
+filename = 'Hull5.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 
 %% plot boat

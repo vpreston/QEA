@@ -1,6 +1,5 @@
-function plotSTL()
-filename = 'Hull.STL';
-[~, ~, fl, fu, vl, vu] = stl2tri(filename);
+function plotSTL(filename)
+[~, ~, fl, fu, vl, vu, ~, ~, f, v] = stl2tri(filename);
 dxl = vl(:,1);
 dyl = vl(:,2);
 
@@ -10,10 +9,14 @@ main = length(dbstack) == 1;
 if main
     subplot(1,2,1);
 end
-    
-% plot patch
-patch('Faces', fl, 'Vertices', vl, 'FaceColor', 'none', 'edgealpha', 0.5);
-patch('Faces', fu, 'Vertices', vu, 'FaceColor', 'none', 'edgealpha', 0.5);
+
+% plot entire patch
+% patch('Faces', f, 'Vertices', v, 'FaceColor', 'none', 'edgealpha', 0.5);
+patch('Faces', f, 'Vertices', v, 'facealpha', 0.3, 'edgealpha', 0.5);
+
+% plot lower and upper patches separately
+% patch('Faces', fl, 'Vertices', vl, 'FaceColor', 'none', 'edgealpha', 0.5);
+% patch('Faces', fu, 'Vertices', vu, 'FaceColor', 'none', 'edgealpha', 0.5);
 
 % alternate plotting methods
 % trimesh(fu, dxu, dyu, dzu);

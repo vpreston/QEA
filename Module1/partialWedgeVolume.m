@@ -82,10 +82,10 @@ if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); 
 % % add references from removed vertices to their replacements
 % a(id,4:6) = a(ir,:);
 % % replace nonsensical values with NaN, and remove all NaN columns
-% a(a == 0) = NaN;
-% a(bsxfun(@eq, a, (1:6)')) = NaN;
-% a = sort(a, 2);
-% a(a == circshift(a, 1, 2)) = NaN;
+% a(a == 0) = NaN; % remove zeroes
+% a(bsxfun(@eq, a, (1:6)')) = NaN; % remove row index from values in row
+% a = sort(a, 2); % sort within rows
+% a(a == circshift(a, 1, 2)) = NaN; % remove duplicates
 % % remove all NaN columns
 % a(:, all(isnan(a), 1)) = [];
 
@@ -128,7 +128,7 @@ indsTop = inds(inds > 3); % wetted vertices of top face of wedge
 if any(length(indsTop) == [1 2]) % plane passes through top face of wedge
     edgesTop = all(edges > 3, 2); % edges on top of wedge intersecting the plane
     wP = intPoints(edgesTop,:);
-    if plotIntersect; plotLines(wP(1,:), wP(2,:), 'b-', 4); end
+    if plotIntersect; plotLines(wP(1,:), wP(2,:), 'b-', 3); end
     numTop = sum(edgesTop)+length(indsTop); % number of vertices defining wetted area
     if numTop == 3
         wA = triArea([v(indsTop, :); wP]);

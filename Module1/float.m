@@ -38,30 +38,6 @@ for i = 1:size(f, 1)
     tC = tC + tvol*tc;
 end
 
-% for i = 1:size(fl, 1) % lower
-%     P = vl(fl(i,:)',1:2);
-%     H = vl(fl(i,:)',3);
-%     tvol = voll(i);
-%     tc = cl(i,:);
-%     [vol, c, wa, wp] = partialWedgeVolume(P, H, tvol, tc, planef, pN, pP, plot);
-%     dVol = dVol + vol;
-%     dC = dC + vol*c;
-%     tVol = tVol + tvol;
-%     tC = tC + tvol*tc;
-% end
-% 
-% for i = 1:size(fu, 1) % upper
-%     P = vu(fu(i,:)',1:2);
-%     H = vu(fu(i,:)',3);
-%     tvol = volu(i);
-%     tc = cu(i,:);
-%     [vol, c, wa, wp] = partialWedgeVolume(P, H, tvol, tc, planef, pN, pP, plot);
-%     dVol = dVol + vol;
-%     dC = dC + vol*c;
-%     tVol = tVol + tvol;
-%     tC = tC + tvol*tc;
-% end
-
 % calculate centroid locations
 dC = dC/dVol;
 tC = tC/tVol;

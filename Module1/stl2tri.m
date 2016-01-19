@@ -15,11 +15,6 @@ nl = n(lower, :);
 [fu, vu] = patchslim(f(~lower, :), v); % remove unused vertices
 nu = n(~lower, :);
 
-% dxl = vl(:,1);
-% dyl = vl(:,2);
-% dxu = vu(:,1);
-% dyu = vu(:,2);
-
 % create 2D triangulation objects
 TRl = triangulation(fl, vl(:,1:2));
 TRu = triangulation(fu, vu(:,1:2));

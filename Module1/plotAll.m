@@ -18,18 +18,6 @@ for i = 1:size(f, 1)
     V = [P zeros(3,1); P(H~=0,:) H(H~=0)];
     [c(i,:), vol(i,1)] = getCentroid(V);
 end
-% for i = 1:size(fl, 1)
-%     P = vl(fl(i,:)',1:2);
-%     H = vl(fl(i,:)',3);
-%     v = [P zeros(3,1); P H];
-%     [cl(i,:), voll(i,1)] = getCentroid(v);
-% end
-% for i = 1:size(fu, 1)
-%     P = vu(fu(i,:)',1:2);
-%     H = vu(fu(i,:)',3);
-%     v = [P zeros(3,1); P H];
-%     [cu(i,:), volu(i,1)] = getCentroid(v);
-% end
 
 tilt = 0;
 heel = 10;

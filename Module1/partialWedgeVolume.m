@@ -62,6 +62,7 @@ if plotLbl
     strs = num2cell(num2str((1:6)'),2);
     text(v(:,1), v(:,2), v(:,3), strs, 'fontsize', 14, 'color', 'm');
 end
+if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); end
 
 %% check for 0-height vertices on top of wedge
 % ik = [H ~= 0; true(3,1)]; % index vector of vertices to be kept
@@ -82,10 +83,6 @@ end
 % a(a == circshift(a, 1, 2)) = NaN;
 % % remove all NaN columns
 % a(:, all(isnan(a), 1)) = [];
-
-% get centroid and volume of entire wedge
-% [tC, tVol] = getCentroid(v);
-if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); end
 
 %% find which of the wedge's vertices are under the plane
 underPlane = planef(v(:,1), v(:,2), v(:,3));

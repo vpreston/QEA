@@ -1,4 +1,4 @@
-function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP, plot)
+function [vol, C, wA, wP] = partialWedgeVolume(P, H, tVol, tC, planef, pN, pP, plot, main)
 % Calculates the volume under a plane and inside a wedge.
 %
 % P is the 3x2 row-wise list of 3 xy points that define the vertices of the
@@ -8,7 +8,8 @@ function [vol, C, tVol, tC, wA, wP] = partialWedgeVolume(P, H, planef, pN, pP, p
 % boolean function which determines whether a point is under the plane.  nP
 % is the normal vector of the plane.  pP is a point in the plane.
 
-main = length(dbstack) == 1;
+% wow this takes a long time
+% main = length(dbstack) == 1;
 
 plotWedge = false;
 plotWater = false;
@@ -83,7 +84,7 @@ end
 % a(:, all(isnan(a), 1)) = [];
 
 % get centroid and volume of entire wedge
-[tC, tVol] = getCentroid(v);
+% [tC, tVol] = getCentroid(v);
 if plotCOM; plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2); end
 
 %% find which of the wedge's vertices are under the plane

@@ -1,5 +1,5 @@
 function [netForce, dC, tC, dM, tM, dF, tF] = ... 
-    float(fl, fu, vl, vu, tilt, heel, depth, plot)
+    float(f, v, vol, c, tilt, heel, depth, plot, main)
 %float this function takes in an orientation of a boat and calculates the
 %difference between the submerged volume and the necessary volume for
 %equilibrium
@@ -26,25 +26,41 @@ dC = 0; % displaced volume centroid [m]
 
 [planef, pN, pP, ~] = getWaterline(tilt, heel, depth);
 
-for i = 1:size(fl, 1) % lower
-    P = vl(fl(i,:)',1:2);
-    H = vl(fl(i,:)',3);
-    [vol, c, tvol, tc, wa, wp] = partialWedgeVolume(P, H, planef, pN, pP, plot);
-    dVol = dVol + vol;
-    dC = dC + vol*c;
+for i = 1:size(f, 1)
+    P = v(f(i,:)',1:2);
+    H = v(f(i,:)',3);
+    tvol = vol(i);
+    tc = c(i,:);
+    [dvol, dc, wa, wp] = partialWedgeVolume(P, H, tvol, tc, planef, pN, pP, plot, main);
+    dVol = dVol + dvol;
+    dC = dC + dvol*dc;
     tVol = tVol + tvol;
     tC = tC + tvol*tc;
 end
 
-for i = 1:size(fu, 1) % upper
-    P = vu(fu(i,:)',1:2);
-    H = vu(fu(i,:)',3);
-    [vol, c, tvol, tc, wa, wp] = partialWedgeVolume(P, H, planef, pN, pP, plot);
-    dVol = dVol + vol;
-    dC = dC + vol*c;
-    tVol = tVol + tvol;
-    tC = tC + tvol*tc;
-end
+% for i = 1:size(fl, 1) % lower
+%     P = vl(fl(i,:)',1:2);
+%     H = vl(fl(i,:)',3);
+%     tvol = voll(i);
+%     tc = cl(i,:);
+%     [vol, c, wa, wp] = partialWedgeVolume(P, H, tvol, tc, planef, pN, pP, plot);
+%     dVol = dVol + vol;
+%     dC = dC + vol*c;
+%     tVol = tVol + tvol;
+%     tC = tC + tvol*tc;
+% end
+% 
+% for i = 1:size(fu, 1) % upper
+%     P = vu(fu(i,:)',1:2);
+%     H = vu(fu(i,:)',3);
+%     tvol = volu(i);
+%     tc = cu(i,:);
+%     [vol, c, wa, wp] = partialWedgeVolume(P, H, tvol, tc, planef, pN, pP, plot);
+%     dVol = dVol + vol;
+%     dC = dC + vol*c;
+%     tVol = tVol + tvol;
+%     tC = tC + tvol*tc;
+% end
 
 % calculate centroid locations
 dC = dC/dVol;

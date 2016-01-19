@@ -1,4 +1,4 @@
-function [TRl, TRu, fl, fu, vl, vu, nl, nu] = stl2tri(filename)
+function [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename)
 % Load file, parse into upper and lower data sets, remove duplicate
 % vertices, and unpack point cloud data.
 % http://www.mathworks.com/matlabcentral/fileexchange/29906-binary-stl-file-reader

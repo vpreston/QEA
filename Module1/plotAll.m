@@ -6,13 +6,37 @@ ylabel('y');
 zlabel('z');
 view(3);
 
-[TRl, TRu, fl, fu, vl, vu, nl, nu] = stl2tri('Hull.STL');
+% turn off warnings thrown in getCentroid if duplicate points aren't
+% removed (which takes lots of time)
+warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
+
+filename = 'Hull.STL';
+[TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
+for i = 1:size(f, 1)
+    P = v(f(i,:)',1:2);
+    H = v(f(i,:)',3);
+    V = [P zeros(3,1); P(H~=0,:) H(H~=0)];
+    [c(i,:), vol(i,1)] = getCentroid(V);
+end
+% for i = 1:size(fl, 1)
+%     P = vl(fl(i,:)',1:2);
+%     H = vl(fl(i,:)',3);
+%     v = [P zeros(3,1); P H];
+%     [cl(i,:), voll(i,1)] = getCentroid(v);
+% end
+% for i = 1:size(fu, 1)
+%     P = vu(fu(i,:)',1:2);
+%     H = vu(fu(i,:)',3);
+%     v = [P zeros(3,1); P H];
+%     [cu(i,:), volu(i,1)] = getCentroid(v);
+% end
 
 tilt = 0;
 heel = 10;
-depth = fzero(@(depth) float(fl, fu, vl, vu, tilt, heel, depth, false), [-0.1 -0.01]);
+func = @(depth) float(f, v, vol, c, tilt, heel, depth, 0, 0);
+depth = fzero(func, [-0.1 -0.01]);
 
-[~, dC, tC, dM, tM, dF, tF] = float(fl, fu, vl, vu, tilt, heel, depth, true);
+[~, dC, tC, dM, tM, dF, tF] = float(f, v, vol, c, tilt, heel, depth, 1, 0);
 moment = cross(dC-tC, [0 0 -dF])
 
 plotSTL();

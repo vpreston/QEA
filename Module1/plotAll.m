@@ -2,6 +2,9 @@
 % removed (which takes lots of time)
 warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 
+% heelVec = 20;
+heelVec = linspace(60, 135, 8);
+
 filename = 'Hull6.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 
@@ -24,8 +27,6 @@ for i = 1:size(f, 1)
 end
 
 %% sweep heel angle to find floating depths and righting moments
-% heelVec = 20;
-heelVec = linspace(0, 180, 8);
 heelSz = length(heelVec);
 momentVec = zeros(heelSz, 3);
 depthVec = zeros(heelSz, 1);
@@ -56,8 +57,9 @@ plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2);
 
 figure(2)
 % plot righting moment and depth over heel angle
-[hAx,hLine1,hLine2] = plotyy(heelVec, momentVec(:,1), heelVec, depthVec);
+[ax, h1, h2] = plotyy(heelVec, momentVec(:,1), heelVec, depthVec);
 title('Boat Characteristics');
 xlabel('Heel Angle [deg]');
-ylabel(hAx(1), 'Righting Moment [N-m]');
-ylabel(hAx(2), 'Boat Depth [m]');
+ylabel(ax(1), 'Righting Moment [N-m]');
+ylabel(ax(2), 'Boat Depth [m]');
+set([h1;h2], 'Marker', 'o');

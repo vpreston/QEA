@@ -2,7 +2,7 @@
 % removed (which takes lots of time)
 warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 
-filename = 'Hull2.STL';
+filename = 'Hull3.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 
 %% plot boat
@@ -25,7 +25,7 @@ end
 
 %% sweep heel angle to find floating depths and righting moments
 % heelVec = 20;
-heelVec = linspace(0, 180, 20);
+heelVec = linspace(0, 180, 6);
 heelSz = length(heelVec);
 momentVec = zeros(heelSz, 3);
 depthVec = zeros(heelSz, 1);

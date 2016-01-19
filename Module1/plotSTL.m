@@ -12,7 +12,7 @@ end
 
 % plot entire patch
 % patch('Faces', f, 'Vertices', v, 'FaceColor', 'none', 'edgealpha', 0.5);
-patch('Faces', f, 'Vertices', v, 'facealpha', 0.3, 'edgealpha', 0.5);
+patch('Faces', f, 'Vertices', v, 'facealpha', 0.25, 'edgealpha', 0.5);
 
 % plot lower and upper patches separately
 % patch('Faces', fl, 'Vertices', vl, 'FaceColor', 'none', 'edgealpha', 0.5);

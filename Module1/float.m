@@ -1,5 +1,5 @@
 function [netForce, dC, tC, dM, tM, dF, tF] = ... 
-    float(f, v, vol, c, tilt, heel, depth, plot, main)
+    float(f, v, vol, c, tilt, heel, depth, opts)
 %float this function takes in an orientation of a boat and calculates the
 %difference between the submerged volume and the necessary volume for
 %equilibrium
@@ -16,13 +16,13 @@ cargoM = 0.720 - rhoF*10*2.8^2*convlength(1, 'in', 'm')^3; % mass of cargo [kg]
 mastC = [0 0 0.25-convlength(3, 'in', 'm')]; % centroid of cargo [m]
 mastM = rhoA*0.5*pi*(3/8/2)^2*convlength(1, 'in', 'm')^2; % mass of cargo [kg]
 
-ballastC = [0 0 -0.06];
-ballastM = 0.1;
+ballastC = [0 0 -1];
+ballastM = 1;
 
 tVol = 0; % total volume [m^3]
 dVol = 0; % displaced volume [m^3]
-tC = 0; % total volume centroid (center of mass) [m]
-dC = 0; % displaced volume centroid [m]
+tC = [0 0 0]; % total volume centroid (center of mass) [m]
+dC = [0 0 0]; % displaced volume centroid [m]
 
 [planef, pN, pP, ~] = getWaterline(tilt, heel, depth);
 
@@ -31,11 +31,11 @@ for i = 1:size(f, 1)
     H = v(f(i,:)',3);
     tvol = vol(i);
     tc = c(i,:);
-    [dvol, dc, wa, wp] = partialWedgeVolume(P, H, tvol, tc, planef, pN, pP, plot, main);
-    dVol = dVol + dvol;
-    dC = dC + dvol*dc;
-    tVol = tVol + tvol;
-    tC = tC + tvol*tc;
+    [dvol, dc, wa, wp] = partialWedgeVolume(P, H, tvol, tc, planef, pN, pP, opts);
+    dVol = dVol + dvol; % total displaced volume
+    dC = dC + dvol*dc; % volume-weighted centroid
+    tVol = tVol + tvol; % total displaced volume
+    tC = tC + tvol*tc; % volume-weighted centroid
 end
 
 % calculate centroid locations
@@ -55,7 +55,7 @@ dF = dM*g; % buoyant force [N]
 tF = tM*g; % gravitational force [N]
 
 netForce = dF-tF;
-depth
-netForce
+% depth
+% netForce
 end
 

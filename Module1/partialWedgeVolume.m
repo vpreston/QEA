@@ -1,4 +1,4 @@
-function [vol, C, wA, wP] = partialWedgeVolume(P, H, tVol, tC, planef, pN, pP, plot, main)
+function [vol, C, wA, wP] = partialWedgeVolume(P, H, tVol, tC, planef, pN, pP, opts)
 % Calculates the volume under a plane and inside a wedge.
 %
 % P is the 3x2 row-wise list of 3 xy points that define the vertices of the
@@ -8,8 +8,13 @@ function [vol, C, wA, wP] = partialWedgeVolume(P, H, tVol, tC, planef, pN, pP, p
 % boolean function which determines whether a point is under the plane.  nP
 % is the normal vector of the plane.  pP is a point in the plane.
 
-% wow this takes a long time
-% main = length(dbstack) == 1;
+if nargin < 8
+    plot = false;
+    main = true;
+else
+    plot = opts(1);
+    main = opts(2);
+end
 
 plotWedge = false;
 plotWater = false;
@@ -107,7 +112,8 @@ inds = find(underPlane); % indices of points under the plane
 adjs = a(underPlane, :); % indices of points adjacent to pointsUnder
 edgesAll = [repmat(inds, 3, 1) adjs(:)]; % adjacent edge pairs [under all]
 edgesInds = any(bsxfun(@eq, find(~underPlane)', edgesAll(:,2)), 2);
-edges = unique(sort(edgesAll(edgesInds, :), 2), 'rows');
+% edges = unique(sort(edgesAll(edgesInds, :), 2), 'rows');
+edges = sort(edgesAll(edgesInds, :), 2);
 
 %% find edge-plane intersections to fully define region of wedge under plane
 P0 = v(edges(:,1), :);

@@ -13,8 +13,8 @@ rhoA = 2700; % aluminum (mast) density [kg/m^3]
 cargoC = [0 0 convlength(-0.4, 'in', 'm')]; % centroid of cargo [m]
 cargoM = 0.720 - rhoF*10*2.8^2*convlength(1, 'in', 'm')^3; % mass of cargo [kg]
 
-mastC = [0 0 0.25-convlength(3, 'in', 'm')]; % centroid of cargo [m]
-mastM = rhoA*0.5*pi*(3/8/2)^2*convlength(1, 'in', 'm')^2; % mass of cargo [kg]
+mastC = [0 0 0.25-convlength(3, 'in', 'm')]; % centroid of mast [m]
+mastM = rhoA*0.5*pi*(3/8/2)^2*convlength(1, 'in', 'm')^2; % mass of mast [kg]
 
 ballastC = [0 0 -0.06];
 ballastM = 0.3;

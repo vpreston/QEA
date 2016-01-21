@@ -3,9 +3,10 @@
 warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 
 % heelVec = 20;
-heelVec = linspace(75, 140, 6);
+heelVec = linspace(0, 180, 20);
 
-filename = 'Hull.STL';
+filename = 'SweptHull.STL';
+% filename = 'SweptHullDeclustered.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 
 %% plot boat

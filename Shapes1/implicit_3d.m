@@ -15,9 +15,9 @@ function implicit_3d()
         zero = -x.^2 - y.^2 + z.^2 -1;
     end
 
-    X = linspace(-2, 2, 10);
-    Y = linspace(-2, 2, 10);
-    Z = linspace(-2, 2, 10);
+    X = linspace(-2, 2, 20);
+    Y = linspace(-2, 2, 20);
+    Z = linspace(-2, 2, 20);
     [Y, X, Z] = ndgrid(Y, X, Z);
     
     V = el_parab(X, Y, Z);

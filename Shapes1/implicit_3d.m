@@ -21,17 +21,20 @@ function implicit_3d()
     [Y, X, Z] = ndgrid(Y, X, Z);
     
     V = el_parab(X, Y, Z);
-    V = hyp_1(X, Y, Z);
-    V = hyp_2(X, Y, Z);
+%     V = hyp_1(X, Y, Z);
+%     V = hyp_2(X, Y, Z);
     
     plt_title = 'Implicit 3D surface plot of elliptical paraboloid';
-    plt_title = 'Implicit 3D surface plot of hyperboloid 1';
-    plt_title = 'Implicit 3D surface plot of hyperboloid 2';
+%     plt_title = 'Implicit 3D surface plot of hyperboloid 1';
+%     plt_title = 'Implicit 3D surface plot of hyperboloid 2';
     
     p = patch(isosurface(X, Y, Z, V, 0));
-    isonormals(X, Y, Z, V, p);
+    isonormals(X, Y, Z, V, p); % Honestly not sure what this line of code
+                               % does, but it was included in the forum
+                               % post this answer was modeled after so we
+                               % left it in here.
     
-    set(p,'FaceColor','b','EdgeColor','k','FaceAlpha',0.1); % ou 'EdgeColor','none'
+    set(p,'FaceColor','b','EdgeColor','k','FaceAlpha',0.1);
     daspect([1 1 1])
     axis square;
     grid on;

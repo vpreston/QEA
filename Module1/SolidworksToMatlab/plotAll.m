@@ -3,13 +3,13 @@
 warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 
 % heelVec = 20;
-heelVec = linspace(60, 135, 8);
+heelVec = linspace(75, 140, 6);
 
-filename = 'Hull6.STL';
+filename = 'Hull10.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 
 %% plot boat
-figure(1)
+subplot(1,2,1)
 hold on;
 axis equal;
 xlabel('x');
@@ -55,7 +55,7 @@ disp('100%');
 % plot centroid location for entire boat
 plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2);
 
-figure(2)
+subplot(1,2,2)
 % plot righting moment and depth over heel angle
 [ax, h1, h2] = plotyy(heelVec, momentVec(:,1), heelVec, depthVec);
 title('Boat Characteristics');

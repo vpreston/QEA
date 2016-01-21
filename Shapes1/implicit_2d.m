@@ -8,6 +8,7 @@ function implicit_2d()
     
     ezplot(@implicit_func);
     axis equal;
+    title('Graph of an implicit ellipse');
 
 end
 

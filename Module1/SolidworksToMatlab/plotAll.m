@@ -3,10 +3,10 @@
 warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 
 % heelVec = 20;
-heelVec = linspace(0, 180, 40);
+heelVec = linspace(0, 180, 10);
 
-filename = 'EllipsoidHull.STL';
-% filename = 'SweptHull.STL';
+% filename = 'EllipsoidHull.STL';
+filename = 'SweptHull.STL';
 % filename = 'SweptHullDeclustered.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 

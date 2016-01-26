@@ -5,8 +5,8 @@ warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 % heelVec = 20;
 heelVec = linspace(0, 180, 10);
 
-% filename = 'EllipsoidHull.STL';
-filename = 'SweptHull.STL';
+filename = 'EllipsoidHull.STL';
+% filename = 'SweptHull.STL';
 % filename = 'SweptHullDeclustered.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 
@@ -64,4 +64,4 @@ title('Boat Characteristics');
 xlabel('Heel Angle [deg]');
 ylabel(ax(1), 'Righting Moment [N-m]');
 ylabel(ax(2), 'Boat Depth [m]');
-set([h1;h2], 'Marker', 'o');
+% set([h1;h2], 'Marker', 'o');

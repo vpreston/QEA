@@ -9,7 +9,7 @@ if any(n(:,3) == 0) % any vertical faces?
 end
 [f, v] = patchslim(f, v); % remove duplicate vertices
 
-lower = n(:,3) < 0;
+lower = n(:,3) <= 0;
 [fl, vl] = patchslim(f(lower, :), v); % remove unused vertices
 nl = n(lower, :);
 [fu, vu] = patchslim(f(~lower, :), v); % remove unused vertices

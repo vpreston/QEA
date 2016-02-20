@@ -2,8 +2,8 @@
 % removed (which takes lots of time)
 warning('off', 'MATLAB:delaunay:DupPtsDelaunayWarnId');
 
-% heelVec = 20;
-heelVec = linspace(0, 180, 10);
+heelVec = 40;
+% heelVec = linspace(0, 180, 6);
 
 filename = 'EllipsoidHull.STL';
 % filename = 'SweptHull.STL';
@@ -11,7 +11,8 @@ filename = 'EllipsoidHull.STL';
 [TRl, TRu, fl, fu, vl, vu, nl, nu, f, v, n] = stl2tri(filename);
 
 %% plot boat
-subplot(1, 2, 1);
+figure(1);
+% subplot(1, 2, 1);
 hold on;
 axis equal;
 xlabel('x');
@@ -57,8 +58,9 @@ disp('100%');
 % plot centroid location for entire boat
 plot3(tC(1), tC(2), tC(3), 'k*', 'markersize', 15, 'linewidth', 2);
 
-subplot(1, 2, 2);
-% plot righting moment and depth over heel angle
+%% plot righting moment and depth over heel angle
+figure(2);
+% subplot(1, 2, 2);
 [ax, h1, h2] = plotyy(heelVec, momentVec(:,1), heelVec, depthVec);
 title('Boat Characteristics');
 xlabel('Heel Angle [deg]');

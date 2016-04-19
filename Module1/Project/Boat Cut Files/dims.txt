@@ -1,0 +1,8 @@
+All boats are oriented lengthwise in y direction, so foam scores should be in x direction to minimize edge losses
+
+paige_max 18x13 top
+emily_kaitlyn 22x21 top
+charlie_nathan 15x32 top
+sean_ariana 25x37 top
+john_mica 16x28 top
+izzy_regina 18x22 top
